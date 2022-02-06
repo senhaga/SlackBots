@@ -23,20 +23,69 @@ BOT_ID = client.api_call("auth.test")['user_id']
 
 
 def rotate():
+    print ("Iniciando rotate()")
+
     listDict=[]
     doc = open("currentRotations.txt", "r")
     for line in doc:
         listDict.append(json.loads(line))
     #carrega as linhas em formato dicionário json do .txt numa lista de dicionários python
+    doc.close()
+
+
     for rotation in listDict:
-        if int(rotation['weekDay']) == int(datetime.datetime.today().weekday()): #se hoje bate com a data, execute a rotação
-            print (client.usergroups_users_list(token=os.environ['SLACK_TOKEN'], usergroup=rotation['groupID']))
+        if int(rotation['weekDay']) == int(datetime.datetime.today().weekday()): 
+        #se hoje bate com a data, execute a rotação
+
+            print ("executando rotação HOJE")
+
+            currentUsers = client.usergroups_users_list(token=os.environ['SLACK_TOKEN'], usergroup=rotation['groupID'])["users"]
+            print (f"Usuários atuais são {currentUsers}")
+            newUsers = rotation["listPerm"]
+            print (f"LIsta de perm é {newUsers}")
+        #confere os atuais membros
+
+            rotList = rotation["listRot"]
+            print (f"Usuários em rotação são {rotList}")
+
+            rotList.append(rotList[0])
+            rotList.pop(0)
+            rotation["listRot"] = rotList
+        #joga o primeiro nome da lista para o final
+            print (f"A nova ordem será {rotList}")
+
+            newUsers.append(rotList[0])
+        #inclui o membro fresco na rotação
+
+            tNewUsers = tuple(newUsers)
+            strNewUsers = ",".join(tNewUsers)
+            for user in newUsers:
+                strNewUsers+user
+        #transforma a lista em string para passar como parâmetro
+
+            print(client.usergroups_users_update(token=os.environ['SLACK_TOKEN'], usergroup=rotation['groupID'], users=strNewUsers))
+        #atualiza os usuários do grupo
+
+
+    doc = open ("currentRotations.txt", "w")
+    for rotation in listDict:
+        doc.write(str(json.dumps(rotation)))
+    doc.close()
+        #updates .txt
+
+    print("Sucesso")
+    return Response(), 200
+
+
+
+
 
 
 
 
 @app.route('/new-rotation', methods=['POST'])
 def new_rotation ():
+    print ("Iniciando new_rotation")
     data = request.form
     channel_id = data.get('channel_id')
     channel_name = data.get('channel_name')
@@ -52,14 +101,44 @@ def new_rotation ():
             toUpdateID = group['id']
     #getting the group's ID 
 
+
+
+#    estranho = ["UC8CZM3DE", "U9EL63C1L", "U01NL5B8SEP", "U01TB207S90", "U01SVUQJLNT", "U01U0R3UTCY", "UQ4SLP97S", "U01AV5XQDDJ", "U01CNE46DPX"]
+#    for id in estranho:
+#        for member in client.users_list()['members']:
+#            if id == member["id"]:
+#                print (member)
+
+
+
+
     if toUpdateID!='':
         rotDict={}
         rotDict["groupID"] = toUpdateID
         rotDict["groupHandle"] = listInput[0]
         rotDict["weekDay"]=listInput[1] #monday=0, sunday=6   
         rotDict["cicleDuration"] = listInput[2]
-        rotDict["listPerm"] = listInput[4:4+int(listInput [3])]
-        rotDict["listRot"] = listInput[4+int(listInput [3]):]
+
+        #print(client.users_list(token=os.environ['SLACK_TOKEN']))
+
+        listPermName = listInput[4:4+int(listInput [3])]
+        listPermID = []
+        for name in listPermName: #para cada nome na lista de membros permanentes,
+            for member in client.users_list()['members']: #compare com os nomes de todos os membros do workspace
+                #print(member["profile"]["display_name"])
+                if name == member["profile"]["display_name"] and member["deleted"]==False: #se o nome bater com a handle de usuário não deletado, pegue o ID
+                    #print (member["profile"]["display_name"])
+                    listPermID.append(member["id"])
+        rotDict["listPerm"] = listPermID
+
+        listRotName = listInput[4+int(listInput [3]):]
+        listRotID =[]
+        for name in listRotName: #para cada nome na lista de membros rotativos,
+            for member in client.users_list()['members']: #compare com os nomes de todos os membros do workspace
+                if name == member["profile"]["display_name"] and member["deleted"]==False: #se o nome bater com a handle de usuário não deletado, pegue o ID
+                    #print(member["profile"]["display_name"])
+                    listRotID.append(member["id"])
+        rotDict["listRot"] = listRotID
    
 
     jsonDict = json.dumps(rotDict) 
