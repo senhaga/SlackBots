@@ -103,7 +103,7 @@ def new_rotation ():
 
 
 
-#    estranho = ["UC8CZM3DE", "U9EL63C1L", "U01NL5B8SEP", "U01TB207S90", "U01SVUQJLNT", "U01U0R3UTCY", "UQ4SLP97S", "U01AV5XQDDJ", "U01CNE46DPX"]
+#    estranho = [""]
 #    for id in estranho:
 #        for member in client.users_list()['members']:
 #            if id == member["id"]:
