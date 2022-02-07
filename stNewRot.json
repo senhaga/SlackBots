@@ -1,0 +1,217 @@
+{
+	"title": {
+		"type": "plain_text",
+		"text": "Criar rotação de oncall",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Criar",
+		"emoji": true
+	},
+	"type": "modal",
+	"close": {
+		"type": "plain_text",
+		"text": "Cancelar",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "plain_text",
+				"text": ":selolegalengineeringdequalidade: Olá!\n\nCom este atalho é possível criar uma rotação de membros dentro de um grupo de usuários, determinando pessoas fixas e pessoas à rotacionar.",
+				"emoji": true
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "section",
+			"block_id": "section678",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Em que grupo de usuários deve haver rotação?"
+			},
+			"accessory": {
+				"action_id": "text1234",
+				"type": "external_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Selecione"
+				},
+				"min_query_length": 3
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Selecione a periodicidade",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Semanal",
+							"emoji": true
+						},
+						"value": "7"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Quinzenal",
+							"emoji": true
+						},
+						"value": "14"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Mensal",
+							"emoji": true
+						},
+						"value": "28"
+					}
+				],
+				"action_id": "static_select-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": ":arrows_counterclockwise: Qual a periodicidade desejada?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Selecione o dia",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Segunda-feira",
+							"emoji": true
+						},
+						"value": "0"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Terça-feira",
+							"emoji": true
+						},
+						"value": "1"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Quarta-feira",
+							"emoji": true
+						},
+						"value": "2"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Quinta-feira",
+							"emoji": true
+						},
+						"value": "3"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Sexta-feira",
+							"emoji": true
+						},
+						"value": "4"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Sábado",
+							"emoji": true
+						},
+						"value": "5"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Domingo",
+							"emoji": true
+						},
+						"value": "6"
+					}
+				],
+				"action_id": "static_select-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": ":spiral_calendar_pad: Em que dia da semana?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": " "
+			},
+			"accessory": {
+				"type": "timepicker",
+				"initial_time": "08:00",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select time",
+					"emoji": true
+				},
+				"action_id": "timepicker-action"
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "multi_users_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Selecione os usuários",
+					"emoji": true
+				},
+				"action_id": "multi_users_select-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": ":anchor: Membros Fixos",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "multi_users_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Selecione os usuários",
+					"emoji": true
+				},
+				"action_id": "multi_users_select-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": ":hourglass_flowing_sand: Membros Rotativos",
+				"emoji": true
+			}
+		}
+	]
+}
