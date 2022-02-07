@@ -2,7 +2,7 @@ import slack
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from flask import Flask, request, Response
+from flask import Flask, request, Response, make_response
 from slackeventsapi import SlackEventAdapter
 import schedule
 import time
@@ -20,6 +20,27 @@ client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 #loading environment file
 
 BOT_ID = client.api_call("auth.test")['user_id']
+
+
+@app.route('/external', methods=['POST'])
+def UGList():
+    usrGroups = client.usergroups_list(token=os.environ['SLACK_TOKEN']).data['usergroups']
+    data = request.form['payload']
+    jsonV = json.loads(data)
+    substring = jsonV['value']
+    #print (usrGroups)
+    normList = []
+    for ug in usrGroups:
+        if substring in ug['handle']:
+            normList.append(dict(text=dict(type="plain_text",text=ug['handle']),value=ug['id']))
+    
+    response = make_response(json.dumps(dict(options = normList)), 200)
+    response.headers['Content-Type']="application/json"
+
+    print ('HELP')
+    return response
+#Eu não sei como essa desgraça está funcionando. Mas está.
+
 
 
 def rotate():
@@ -76,8 +97,74 @@ def rotate():
     print("Sucesso")
     return Response(), 200
 
+def stNewRot(tg_id):
+    print('\n' + "Beginning stNewRot()")
+    doc = open('stNewRot.json', 'r')
+    modal = json.loads(doc.read())
+    doc.close()
+    client.views_open(token=os.environ['SLACK_TOKEN'], trigger_id=tg_id, view=modal)
+    return Response(), 200
 
 
+def viewSub(data):
+    print('\n' + "Beginning viewSub()")
+    if data['view']['title']['text'] == 'Criar rotação de oncall':
+    
+        #print (data)
+
+        state = data['view']['state']['values']
+        stValues = state.values()
+        for value in stValues:
+            print (value)
+
+
+        usergroup = stValues[0]['value']
+        periodicy = stValues[1]['value']
+        weekDay = stValues[2]['value']        
+        messageTime = stValues[3]['value']
+        
+        listPerm_ID = stValues[4]['multi_users_select-action']['selected_users']
+        listRot_ID = stValues[5]['multi_users_select-action']['selected_users']
+
+        messageChannelID = ''
+
+
+
+    else:
+        pass    
+
+    return Response(), 200
+
+@app.route('/shortcuts', methods=['POST'])
+def shortcuts ():
+    data = json.loads(request.form.get('payload'))
+    #print (data)
+
+    trigger_id = data.get('trigger_id')
+    shortcut = data.get("callback_id")
+    type = data.get('type')
+    #print (data)
+
+
+
+
+
+    if type == "view_submission":
+        #print (data['view'].keys())
+        viewSub(data)
+    
+    elif type == "block_actions":
+        print ("Block actions is happening")
+        pass
+
+    elif shortcut == 'shortcutNewRotation':
+        stNewRot(trigger_id)
+
+    else:
+        print ("shortcut not yet implemented")
+        print (data)
+
+    return Response(), 200
 
 
 
@@ -103,7 +190,7 @@ def new_rotation ():
 
 
 
-#    estranho = [""]
+#    estranho = ["UC8CZM3DE", "U9EL63C1L", "U01NL5B8SEP", "U01TB207S90", "U01SVUQJLNT", "U01U0R3UTCY", "UQ4SLP97S", "U01AV5XQDDJ", "U01CNE46DPX"]
 #    for id in estranho:
 #        for member in client.users_list()['members']:
 #            if id == member["id"]:
