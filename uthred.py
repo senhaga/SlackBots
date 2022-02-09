@@ -21,6 +21,11 @@ client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 
 BOT_ID = client.api_call("auth.test")['user_id']
 
+@app.route('/slack/events', methods=['POST'])
+def challa ():
+    return request.form.get('challange')
+
+
 
 @app.route('/external', methods=['POST'])
 def external():
