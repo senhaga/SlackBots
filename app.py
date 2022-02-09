@@ -8,14 +8,14 @@ import schedule
 import time
 import json
 import datetime
-from views import views
+#from views import views
 
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
-app.register_blueprint(views, url_prefix="/")
+#app.register_blueprint(views, url_prefix="/")
 
 
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'],'/slack/events', app)
