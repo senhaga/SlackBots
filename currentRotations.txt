@@ -1,0 +1,1 @@
+{'usergroup': 'S026YR1PC15', 'messageChannelID': 'C01S92KR7UY', 'periodicy': '7', 'weekDay': '0', 'messageTime': '08:00', 'listPerm_ID': ['UC8CZM3DE', 'U01NL5B8SEP'], 'listRot_ID': ['U01TB207S90', 'U01SVUQJLNT', 'U01U0R3UTCY', 'U01AV5XQDDJ', 'U01CNE46DPX']}
