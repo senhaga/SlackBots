@@ -14,16 +14,14 @@ env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
+
+
 slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'],'/slack/events', app)
 
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
-#loading environment file
+#loading environment files
 
 BOT_ID = client.api_call("auth.test")['user_id']
-
-@app.route('/slack/events', methods=['POST'])
-def challa ():
-    return request.form.get('challange')
 
 
 
