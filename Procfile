@@ -1,1 +1,1 @@
-web: gunicorn uthred.py
+web: gunicorn app:app
