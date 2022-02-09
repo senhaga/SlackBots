@@ -23,7 +23,7 @@ slack_event_adapter = SlackEventAdapter(os.environ['SIGNING_SECRET'],'/slack/eve
 client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 #loading environment files
 
-#BOT_ID = client.api_call("auth.test")['user_id']
+BOT_ID = client.api_call("auth.test")['user_id']
 
 
 
