@@ -1,5 +1,4 @@
 slack
-os
 pathlib
 flask
 slackeventsapi
@@ -8,3 +7,4 @@ time
 datetime
 json
 dotenv
+os
