@@ -29,20 +29,39 @@
 		},
 		{
 			"type": "section",
-			"block_id": "section678",
+			"block_id": "ugBlock",
 			"text": {
 				"type": "mrkdwn",
-				"text": "Em que grupo de usuários deve haver rotação?"
+				"text": ":alphabet-white-at: Em que grupo de usuários deve haver rotação?"
 			},
 			"accessory": {
 				"action_id": "text1234",
 				"type": "external_select",
 				"placeholder": {
 					"type": "plain_text",
-					"text": "Selecione"
+					"text": "Digite o grupo"
 				},
 				"min_query_length": 3
 			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": ":alphabet-white-hash: Em que canal a rotação deve ser avisada?"
+			},
+			"accessory": {
+				"type": "channels_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Digite o canal",
+					"emoji": true
+				},
+				"action_id": "channel_select-action"
+			}
+		},
+		{
+			"type": "divider"
 		},
 		{
 			"type": "input",
@@ -178,6 +197,9 @@
 				},
 				"action_id": "timepicker-action"
 			}
+		},
+		{
+			"type": "divider"
 		},
 		{
 			"type": "input",
