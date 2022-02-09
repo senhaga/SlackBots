@@ -1,7 +1,7 @@
 slack==0.0.2
 pathlib==1.0.1
 flask==2.0.2
-slackeventsapi=3.0.1
+slackeventsapi==3.0.1
 schedule==1.1.0
 datetime==4.3
 python-dotenv
