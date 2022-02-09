@@ -23,7 +23,7 @@ BOT_ID = client.api_call("auth.test")['user_id']
 
 
 @app.route('/external', methods=['POST'])
-def UGList():
+def external():
     usrGroups = client.usergroups_list(token=os.environ['SLACK_TOKEN']).data['usergroups']
     data = request.form['payload']
     jsonV = json.loads(data)
@@ -96,7 +96,7 @@ def rotate():
     print("Sucesso")
     return Response(), 200
 
-def stNewRot(tg_id):
+def returningNewRotationModel(tg_id):
     print('\n' + "Beginning stNewRot()")
     doc = open('stNewRot.json', 'r')
     modal = json.loads(doc.read())
@@ -171,16 +171,13 @@ def shortcuts ():
         pass
 
     elif shortcut == 'shortcutNewRotation':
-        stNewRot(trigger_id)
+        returningNewRotationModel(trigger_id)
 
     else:
         print ("shortcut not yet implemented")
         print (data)
 
     return Response(), 200
-
-
-
 
 
 @app.route('/new-rotation', methods=['POST'])
@@ -242,8 +239,6 @@ def new_rotation ():
   
     #/new-rotation legal-eng_lawsuits-oncall
     return Response(), 200
-
-
 
 @app.route('/new-oncall', methods=['POST'])
 def new_oncall ():
