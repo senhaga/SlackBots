@@ -1,6 +1,7 @@
 # Custom #
 ##########
 *.env
+currentRotations.txt
 
 # Compiled source #
 ###################
