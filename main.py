@@ -37,7 +37,6 @@ def UGList():
     response = make_response(json.dumps(dict(options = normList)), 200)
     response.headers['Content-Type']="application/json"
 
-    print ('HELP')
     return response
 #Eu não sei como essa desgraça está funcionando. Mas está.
 
@@ -106,34 +105,48 @@ def stNewRot(tg_id):
     return Response(), 200
 
 
-def viewSub(data):
-    print('\n' + "Beginning viewSub()")
+def modalListener(data):
+    #print('\n' + "Beginning modalListener()")
+    #print (data)
+    #print ("Data printed^\n")
     if data['view']['title']['text'] == 'Criar rotação de oncall':
     
-        #print (data)
-
         state = data['view']['state']['values']
-        stValues = state.values()
-        for value in stValues:
-            print (value)
+        #print (state)
+        #print ("state printed^\n")
+
+        stValues=[]
+        for value in state.values():
+            stValues.append(value)
+        #stValues = state.values()
+        #print (stValues)
+        #print ("stValues printes^\n")
+        #for value in stValues:
+        #    print (value)
 
 
-        usergroup = stValues[0]['value']
-        periodicy = stValues[1]['value']
-        weekDay = stValues[2]['value']        
-        messageTime = stValues[3]['value']
-        
-        listPerm_ID = stValues[4]['multi_users_select-action']['selected_users']
-        listRot_ID = stValues[5]['multi_users_select-action']['selected_users']
+        dictForm = dict(
+        usergroup = stValues[0]['text1234']['selected_option']['value'],
+        messageChannelID = stValues[1]['channel_select-action']['selected_channel'],
+        periodicy = stValues[2]['static_select-action']['selected_option']['value'],
+        weekDay = stValues[3]['static_select-action']['selected_option']['value'],        
+        messageTime = stValues[4]['timepicker-action']['selected_time'],
+        listPerm_ID = stValues[5]['multi_users_select-action']['selected_users'],
+        listRot_ID = stValues[6]['multi_users_select-action']['selected_users']
+        )
 
-        messageChannelID = ''
+        #print ('\n' + dictForm)
+
+        doc = open("currentRotations.txt", "a")
+        doc.write(str(dictForm))
+        doc.close()
 
 
 
     else:
-        pass    
+        return Response(), 400   
 
-    return Response(), 200
+    
 
 @app.route('/shortcuts', methods=['POST'])
 def shortcuts ():
@@ -151,7 +164,7 @@ def shortcuts ():
 
     if type == "view_submission":
         #print (data['view'].keys())
-        viewSub(data)
+        modalListener(data)
     
     elif type == "block_actions":
         print ("Block actions is happening")
@@ -187,15 +200,6 @@ def new_rotation ():
         if toUpdate==group['handle']:
             toUpdateID = group['id']
     #getting the group's ID 
-
-
-
-#    estranho = ["UC8CZM3DE", "U9EL63C1L", "U01NL5B8SEP", "U01TB207S90", "U01SVUQJLNT", "U01U0R3UTCY", "UQ4SLP97S", "U01AV5XQDDJ", "U01CNE46DPX"]
-#    for id in estranho:
-#        for member in client.users_list()['members']:
-#            if id == member["id"]:
-#                print (member)
-
 
 
 
