@@ -4,6 +4,5 @@ flask
 slackeventsapi
 schedule
 datetime
-json
 dotenv
 os
