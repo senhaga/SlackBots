@@ -261,7 +261,7 @@ def new_oncall ():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(threaded=True)
 #automaticaly reruns webserver
 
 
