@@ -5,3 +5,4 @@ slackeventsapi==3.0.1
 schedule==1.1.0
 datetime==4.3
 python-dotenv
+gunicorn==20.1.0
