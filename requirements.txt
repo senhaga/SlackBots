@@ -3,7 +3,6 @@ pathlib
 flask
 slackeventsapi
 schedule
-time
 datetime
 json
 dotenv
