@@ -24,6 +24,7 @@ client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 #loading environment files
 
 BOT_ID = client.api_call("auth.test")['user_id']
+print ("this is not the problem")
 
 
 
